@@ -1,12 +1,14 @@
 "use client"
 import { OrbitControls, Sky } from '@react-three/drei'
 import { Canvas } from '@react-three/fiber'
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import SketchfabCar from './SketchfabCar'
+import Road from './Road'
 
 
 const Scene = () => {
     const [boxArg, setBoxArg] = useState([2, 2, 2])
+    const carRef = useRef()
 
     const handleMeshSize = () => {
         setBoxArg((prevMeshArgs) => {
@@ -20,7 +22,7 @@ const Scene = () => {
             height: '100vh',
             backgroundColor: 'q'
         }}>
-            <Canvas camera={{ position: [2, 2, 0] }}  >
+            <Canvas camera={{ position: [0, 3, -180], fov: 20, far: 2000 }}  >
                 {/* Ambient light for overall illumination */}
                 <ambientLight intensity={1} />
 
@@ -45,11 +47,22 @@ const Scene = () => {
                     <boxGeometry args={boxArg} />
                     <meshLambertMaterial color="skyblue" />
                 </mesh> */}
-                <SketchfabCar />
-                <OrbitControls />
+
+                {/* Road - fixed in place */}
+                <Road />
+
+                <SketchfabCar ref={carRef} />
+                <OrbitControls
+                    enablePan={true}
+                    enableZoom={true}
+                    enableRotate={true}
+                    maxPolarAngle={Math.PI / 2}
+                    minDistance={5}
+                    maxDistance={50}
+                />
             </Canvas>
         </div>
     )
 }
 
-export default Scene    
+export default Scene

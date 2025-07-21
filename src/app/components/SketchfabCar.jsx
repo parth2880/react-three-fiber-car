@@ -1,21 +1,21 @@
 "use client"
 import { useLoader } from '@react-three/fiber'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
-import { useRef } from 'react'
+import { forwardRef } from 'react'
 
-const SketchfabCar = () => {
-    const carRef = useRef()
-
+const SketchfabCar = forwardRef((props, ref) => {
     // Load the model using GLTFLoader
     const gltf = useLoader(GLTFLoader, '/ford_mustang_1965.glb')
     const scene = gltf.scene
 
     return (
-        <group ref={carRef} position={[0, 0, 0]} scale={[1, 1, 1]}>
+        <group ref={ref} position={[0, 0.2, -200]} scale={[4, 4, 4]}>
             <primitive object={scene} />
         </group>
     )
-}
+})
+
+SketchfabCar.displayName = 'SketchfabCar'
 
 export default SketchfabCar
 
